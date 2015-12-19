@@ -1,20 +1,57 @@
 body {
-  margin: 10%;
+  font-family: 'Lato';
+}
+
+#content {
+  padding: 2em;
+  min-width: 500px;
 }
 
 h1 {
-  font-family: 'Lato';
   text-align: center;
   font-size: 300%;
 }
 
-.search {
-  padding: 2em;
+.searchFormSection {
+  width: 100%;
+  padding: 1em 0em;
 }
 
-.search-box {
-  display: block;
-  width: 100%;
-  margin: 0, 25%;
-  font-size: 200%;
+.searchForm {
+  width: 50%;
+  min-width: 500px;
+  margin: 0px auto;
+  font-size: 125%;
 }
+
+.searchForm:after { /* clearfix */
+  content: "";
+  display: table;
+  clear: both;
+}
+
+.searchForm input {
+  font-size: 100%;
+  padding: 0.25em 0.75em;
+  display: inline-block;
+  float: left;
+  box-sizing: border-box;
+  border: 1px solid #999;
+}
+
+.searchForm input[type='text'] {
+  width: 80%;
+}
+
+.searchForm input[type='submit'] {
+  width: 20%;
+  background-color:#7892c2;
+  cursor:pointer;
+  color:#FFF;
+  border-left: 0px;
+}
+
+.searchForm input[type='submit']:hover {
+  background-color:#476e9e;
+}
+
