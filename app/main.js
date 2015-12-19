@@ -77,10 +77,11 @@ var SearchResultList = React.createClass({
 
 var SearchSection = React.createClass({
   getInitialState: function() {
-    return { searchResults: [] };
+    return { searchResults: [], loading: false };
   },
   handleSearchSubmit: function(input) {
     var self = this;
+    self.setState( { searchResults: [], loading: true });
     $.ajax({
       method: 'GET',
       url: PAGE_SEARCH_URL,
@@ -93,16 +94,30 @@ var SearchSection = React.createClass({
       }
     })
     .then(function(result) {
-      self.setState( { searchResults: result.data });
+      setTimeout(function() {
+        self.setState( { searchResults: result.data, loading: false });
+
+      },2000);
     }, function(error) {
+      self.setState( { searchResults: [], loading: false });
       console.log('Error: ' + error);
     });
+  },
+  showLoadMessage: function() {
+    console.log('show load message');
+    if (this.state.loading) {
+      return (
+        <span className="loadMessage"> Loading... </span>
+      );
+    }
+    return null; // display nothing otherwise
   },
   render: function() {
     return (
       <div className="searchSection">
         <h1>Page Explorer</h1>
         <SearchForm onSearchSubmit={this.handleSearchSubmit} />
+        { this.showLoadMessage() }
         <SearchResultList searchResults={this.state.searchResults} />
       </div>
     );
