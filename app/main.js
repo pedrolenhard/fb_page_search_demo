@@ -7,19 +7,14 @@ var $ = require('jquery');
 var APP_ACCESS_TOKEN = '924314550989801|JZbwxfRSyxsDKxIK44cBDUlEWs0';
 var PAGE_SEARCH_URL = 'https://graph.facebook.com/search';
 
-/*
- https://graph.facebook.com/search?type=page&
- fields=name,id,likes,picture&limit=25&
- q=[search_string]&access_token=APP_ACCESS_TOKEN
-*/
 
 var Page = React.createClass({
   render: function() {
     return (
       <div className="page">
-        <h2 className="pageName">
+        <a href={ '' + this.props.link }>
           { this.props.name }
-        </h2>
+        </a>
         <span className= "likes">
           Likes: { this.props.likes }
         </span>
@@ -63,7 +58,8 @@ var SearchResultList = React.createClass({
   render: function() {
     var pageNodes = this.props.searchResults.map(function(page) {
       return (
-        <Page name={page.name} likes={page.likes} key={page.id}>
+        <Page name={page.name} likes={page.likes}
+        link={page.link} key={page.id}>
         </Page>
       );
     });
@@ -77,17 +73,21 @@ var SearchResultList = React.createClass({
 
 var SearchSection = React.createClass({
   getInitialState: function() {
-    return { searchResults: [], loading: false };
+    return { searchResults: [], loading: false, hasError: false };
   },
   handleSearchSubmit: function(input) {
     var self = this;
-    self.setState( { searchResults: [], loading: true });
+    self.setState( {
+      searchResults: [],
+      loading: true,
+      hasError: false
+    });
     $.ajax({
       method: 'GET',
       url: PAGE_SEARCH_URL,
       data: {
         type: 'page',
-        fields: 'name,id,likes,picture',
+        fields: 'name,id,likes,picture,link',
         limit: 25,
         q: input.keyword,
         access_token: APP_ACCESS_TOKEN
@@ -95,19 +95,35 @@ var SearchSection = React.createClass({
     })
     .then(function(result) {
       setTimeout(function() {
-        self.setState( { searchResults: result.data, loading: false });
-
+        self.setState( {
+          searchResults: result.data,
+          loading: false,
+          hasError: false
+        });
       },2000);
-    }, function(error) {
-      self.setState( { searchResults: [], loading: false });
-      console.log('Error: ' + error);
+    }, function(xhr, status, err) {
+      self.setState( {
+        searchResults: [],
+        loading: false,
+        hasError: true
+      });
+      console.log('Error: ' + xhr.status + ' ' + err.toString());
     });
   },
   showLoadMessage: function() {
-    console.log('show load message');
     if (this.state.loading) {
       return (
         <span className="loadMessage"> Loading... </span>
+      );
+    }
+    return null; // display nothing otherwise
+  },
+  showErrorMessage: function() {
+    if (this.state.hasError) {
+      return (
+        <span className="errorMessage">
+        An error has occurred. Please try searching again.
+        </span>
       );
     }
     return null; // display nothing otherwise
@@ -118,6 +134,7 @@ var SearchSection = React.createClass({
         <h1>Page Explorer</h1>
         <SearchForm onSearchSubmit={this.handleSearchSubmit} />
         { this.showLoadMessage() }
+        { this.showErrorMessage() }
         <SearchResultList searchResults={this.state.searchResults} />
       </div>
     );
