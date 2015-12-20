@@ -12,6 +12,15 @@ h1 {
   font-size: 300%;
 }
 
+.loadMessage {
+  text-align: center;
+}
+
+.errorMessage {
+  text-align: center;
+  color: red;
+}
+
 .searchFormSection {
   width: 100%;
   padding: 1em 0em;
@@ -53,5 +62,10 @@ h1 {
 
 .searchForm input[type='submit']:hover {
   background-color:#476e9e;
+}
+
+.searchResultList {
+  padding-top: 2em;
+  text-align: center;
 }
 

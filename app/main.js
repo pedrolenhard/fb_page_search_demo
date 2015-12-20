@@ -63,11 +63,15 @@ var SearchResultList = React.createClass({
         </Page>
       );
     });
-    return (
-      <div className="searchResultList">
+    if (this.props.searchResults.length > 0) {
+      return (
+        <div className="searchResultList">
+        <p>{ this.props.searchResults.length } Results Found:</p>
         { pageNodes }
-      </div>
-    );
+        </div>
+      );
+    }
+    return (null);
   }
 });
 
@@ -113,7 +117,7 @@ var SearchSection = React.createClass({
   showLoadMessage: function() {
     if (this.state.loading) {
       return (
-        <span className="loadMessage"> Loading... </span>
+        <p className="loadMessage">Loading&hellip;</p>
       );
     }
     return null; // display nothing otherwise
@@ -121,9 +125,9 @@ var SearchSection = React.createClass({
   showErrorMessage: function() {
     if (this.state.hasError) {
       return (
-        <span className="errorMessage">
+        <p className="errorMessage">
         An error has occurred. Please try searching again.
-        </span>
+        </p>
       );
     }
     return null; // display nothing otherwise
