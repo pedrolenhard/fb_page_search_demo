@@ -108,13 +108,11 @@ var SearchSection = React.createClass({
       }
     })
     .then(function(result) {
-      setTimeout(function() {
-        self.setState( {
-          searchResults: result.data,
-          loading: false,
-          hasError: false
-        });
-      },2000);
+      self.setState( {
+        searchResults: result.data,
+        loading: false,
+        hasError: false
+      });
     }, function(xhr, status, err) {
       self.setState( {
         searchResults: [],
