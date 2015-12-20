@@ -10,11 +10,20 @@ var PAGE_SEARCH_URL = 'https://graph.facebook.com/search';
 
 var Page = React.createClass({
   render: function() {
+    var generateDescription = function(description) {
+      if (!description) { return null; }
+      var shortDesc = ('' + description).substring(0, 140);
+      return shortDesc + '&hellip;';
+    };
     return (
       <div className="page">
+        <img src={ '' + this.props.photo }></img>
         <a href={ '' + this.props.link }>
           { this.props.name }
         </a>
+        <p className = "pageDescription">
+        { generateDescription(this.props.description) }
+        </p>
         <p className= "likes">
           Likes: { this.props.likes }
         </p>
@@ -59,7 +68,8 @@ var SearchResultList = React.createClass({
     var pageNodes = this.props.searchResults.map(function(page) {
       return (
         <Page name={page.name} likes={page.likes}
-        link={page.link} key={page.id}>
+        link={page.link} description={page.description}
+        photo={page.picture.data.url} key={page.id}>
         </Page>
       );
     });
@@ -71,7 +81,7 @@ var SearchResultList = React.createClass({
         </div>
       );
     }
-    return (null);
+    return null; // display nothing otherwise
   }
 });
 
@@ -91,7 +101,7 @@ var SearchSection = React.createClass({
       url: PAGE_SEARCH_URL,
       data: {
         type: 'page',
-        fields: 'name,id,likes,picture,link',
+        fields: 'name,id,likes,picture,link,description',
         limit: 25,
         q: input.keyword,
         access_token: APP_ACCESS_TOKEN
