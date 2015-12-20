@@ -15,9 +15,9 @@ var Page = React.createClass({
         <a href={ '' + this.props.link }>
           { this.props.name }
         </a>
-        <span className= "likes">
+        <p className= "likes">
           Likes: { this.props.likes }
-        </span>
+        </p>
       </div>
     );
   }

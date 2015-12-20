@@ -21,6 +21,14 @@ h1 {
   color: red;
 }
 
+.page {
+  margin-bottom: 2em;
+}
+
+.page a {
+  font-size: 120%;
+}
+
 .searchFormSection {
   width: 100%;
   padding: 1em 0em;
@@ -68,4 +76,3 @@ h1 {
   padding-top: 2em;
   text-align: center;
 }
-
