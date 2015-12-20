@@ -13,7 +13,7 @@ var Page = React.createClass({
     var generateDescription = function(description) {
       if (!description) { return null; }
       var shortDesc = ('' + description).substring(0, 140);
-      return shortDesc + '&hellip;';
+      return shortDesc + '\u2026';
     };
     return (
       <div className="page">
