@@ -10,7 +10,7 @@
     "babelify": "^7.2.0",
     "browserify": "^12.0.1",
     "express": "^4.13.3",
-    "jquery": "^2.1.4",
+    "jquery": "^3.5.0",
     "react": "^0.14.3",
     "react-dom": "^0.14.3"
   },
